@@ -1,0 +1,34 @@
+===========================================================================================
+===========================================================================================
+========================================<R-noninteractive>===========================================
+https://github.com/gastonstat/tutorial-R-noninteractive
+
+Assuming that you have an R script file myscript.R that will be executed non-interactively, you can use one of the following options:
+# Using 'R CMD BATCH' 
+R CMD BATCH myscript.R
+
+# Using 'Rscript'
+Rscript myscript.R
+
+# Using input redirection
+R < myscript.R
+
+# Running a shell script
+./myscript.R
+
+
+
+The professor has an R script tests_histograms.R that reads in the dataset containing the gradebook scores, selects the variables of the test scores, and plots histograms for each test; something like this:
+# script to generate histograms of test's
+dat <- read.csv('gradebook.csv')
+
+test_columns <- grep('test', names(dat))
+
+for (i in seq_along(test_columns)) {
+    png(paste0('histogram_test', i))
+    hist(dat[ ,i], main = paste('Test', names(dat)[i]))
+    dev.off()
+}
+
+How can she "automate" this task? One way to run this script wihtout opening an interactive session, is using the Rscript command via the command line:
+Rscript -e 'tests_histograms.R'
